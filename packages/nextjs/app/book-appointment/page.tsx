@@ -1,12 +1,10 @@
 "use client";
 
 import React, { useState, useCallback } from 'react';
-import { useAccount } from "wagmi";
 import { InputBase } from "~~/components/scaffold-eth";
 import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 
 const BookAppointment = () => {
-  const { address: connectedAddress } = useAccount();
   const [selectedChargerId, setSelectedChargerId] = useState(0);
   const [numHours, setNumHours] = useState(0);
   const [formErrors, setFormErrors] = useState({ chargerId: '', numHours: '' });

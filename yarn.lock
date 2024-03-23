@@ -2699,7 +2699,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*":
+"@types/node@npm:*, @types/node@npm:^20.11.30":
   version: 20.11.30
   resolution: "@types/node@npm:20.11.30"
   dependencies:
@@ -2795,6 +2795,15 @@ __metadata:
   dependencies:
     "@types/react": "*"
   checksum: adc2970c8756e648daa06e294c422df3dc076a784344ab2ecb78a17ebd7e8e3dfd7f31e68c24267de4815cdeec573a743d952a308b45b8380f6b7912a9a8b911
+  languageName: node
+  linkType: hard
+
+"@types/react-dom@npm:^18":
+  version: 18.2.22
+  resolution: "@types/react-dom@npm:18.2.22"
+  dependencies:
+    "@types/react": "*"
+  checksum: 83bb3ddcd7894f20a9a6cbc2befe75d8b76984734020c455b4c50cad625a4025250d8e1d247ef6264e484d47d5a94f2dd11f77c1dcac6a5de998cb447d85b720
   languageName: node
   linkType: hard
 
@@ -2906,7 +2915,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/parser@npm:latest":
+"@typescript-eslint/parser@npm:^7.3.1, @typescript-eslint/parser@npm:latest":
   version: 7.3.1
   resolution: "@typescript-eslint/parser@npm:7.3.1"
   dependencies:
@@ -11858,13 +11867,20 @@ __metadata:
     "@types/google-map-react": ^2
     "@types/google.maps": ^3.55.4
     "@types/mapbox-gl": ^3
+    "@types/node": ^20.11.30
+    "@types/react": ^18.0.9
+    "@types/react-dom": ^18
+    "@typescript-eslint/parser": ^7.3.1
     eslint: ^8.57.0
     formik: ^2.4.5
     google-map-react: ^2.2.1
     husky: ^8.0.1
     lint-staged: ^13.0.3
     next: ^14.0.4
+    react: ^18.2.0
+    react-dom: ^18.2.0
     react-map-gl: ^7.1.7
+    tailwindcss: ^3.4.1
     typescript: latest
     vercel: ^32.4.1
     yup: ^1.4.0
@@ -12713,7 +12729,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tailwindcss@npm:^3.3.3":
+"tailwindcss@npm:^3.3.3, tailwindcss@npm:^3.4.1":
   version: 3.4.1
   resolution: "tailwindcss@npm:3.4.1"
   dependencies:
