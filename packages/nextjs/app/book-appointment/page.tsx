@@ -1,18 +1,18 @@
 "use client";
 
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback } from "react";
 import { InputBase } from "~~/components/scaffold-eth";
 import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 
 const BookAppointment = () => {
   const [selectedChargerId, setSelectedChargerId] = useState(0);
   const [numHours, setNumHours] = useState(0);
-  const [formErrors, setFormErrors] = useState({ chargerId: '', numHours: '' });
-  const [transactionMessage, setTransactionMessage] = useState('');
+  const [formErrors, setFormErrors] = useState({ chargerId: "", numHours: "" });
+  const [transactionMessage, setTransactionMessage] = useState("");
 
   const validateForm = () => {
     let isValid = true;
-    let errors = { chargerId: '', numHours: '' };
+    let errors = { chargerId: "", numHours: "" };
 
     if (!selectedChargerId) {
       errors.chargerId = "Charger ID is required";
@@ -45,7 +45,7 @@ const BookAppointment = () => {
   const handleBookCharger = useCallback(() => {
     if (!validateForm()) return;
 
-    setTransactionMessage('Processing your booking...');
+    setTransactionMessage("Processing your booking...");
     writeAsync().catch((error) => {
       console.error("Transaction error:", error);
       setTransactionMessage(`Transaction failed: ${error.message}`);
@@ -56,10 +56,10 @@ const BookAppointment = () => {
     <>
       <div className="bg-gradient-to-r from-[#D0E9FF] to-[#A1C4FD]">
         <div className="flex justify-center items-center">
-          <div className='w-1/2 p-5 card '>
-            <div className='pb-5 justify-center items-center'>
-              <div className='flex flex-col justify-center items-center pb-5'>
-                <h1 className='text-4xl font-bold pb-4'>Book a Charger</h1>
+          <div className="w-1/2 p-5 card ">
+            <div className="pb-5 justify-center items-center">
+              <div className="flex flex-col justify-center items-center pb-5">
+                <h1 className="text-4xl font-bold pb-4">Book a Charger</h1>
               </div>
               <InputBase
                 name="chargerId"
@@ -70,7 +70,7 @@ const BookAppointment = () => {
                 />
               {formErrors.chargerId && <p className="text-red-500">{formErrors.chargerId}</p>}
             </div>
-            <div className='pb-5'>
+            <div className="pb-5">
               <InputBase
                 name="numHours"
                 placeholder="Number of Hours"
@@ -81,14 +81,14 @@ const BookAppointment = () => {
               {formErrors.numHours && <p className="text-red-500">{formErrors.numHours}</p>}
             </div>
             <button
-              className={`btn btn-primary mt-4 shadow-2xl ${isLoading || isMining ? 'opacity-50 cursor-not-allowed' : ''}`}
+              className={`btn btn-primary mt-4 shadow-2xl ${isLoading || isMining ? "opacity-50 cursor-not-allowed" : ""}`}
               onClick={handleBookCharger}
               disabled={isLoading || isMining}
               aria-disabled={isLoading || isMining}
             >
-              {isLoading || isMining ? 'Processing...' : 'Book Charger Now'}
+              {isLoading || isMining ? "Processing..." : "Book Charger Now"}
             </button>
-            {transactionMessage && <p className={`mt-4 ${transactionMessage.includes('failed') ? 'text-red-500' : 'text-green-500'}`}>{transactionMessage}</p>}
+            {transactionMessage && <p className={`mt-4 ${transactionMessage.includes("failed") ? "text-red-500" : "text-green-500"}`}>{transactionMessage}</p>}
           </div>
         </div>
       </div>
