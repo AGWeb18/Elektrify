@@ -1,91 +1,118 @@
 // pages/view-appointments.tsx
 "use client";
 
-import React, { useEffect, useState } from 'react';
-import { useAccount } from "wagmi";
-import { useScaffoldEventHistory } from '~~/hooks/scaffold-eth'; // Adjust based on actual import paths
-import Link from "next/link";
+import React, { useEffect, useState } from "react";
+// Adjust based on actual import paths
 import type { NextPage } from "next";
-import { InputBase } from "~~/components/scaffold-eth";
-import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
-import { CurrencyDollarIcon, MagnifyingGlassIcon, MapIcon } from "@heroicons/react/24/outline";
+import { useAccount } from "wagmi";
 
+// pages/view-appointments.tsx
 
+// pages/view-appointments.tsx
+
+// pages/view-appointments.tsx
+
+// pages/view-appointments.tsx
+
+// pages/view-appointments.tsx
+
+// pages/view-appointments.tsx
+
+// pages/view-appointments.tsx
+
+// pages/view-appointments.tsx
+
+// pages/view-appointments.tsx
+
+// pages/view-appointments.tsx
+
+// pages/view-appointments.tsx
 
 const ViewAppointments: NextPage = () => {
-  
   const { address: connectedAddress } = useAccount();
-
-  const { writeAsync, isLoading, isMining } = useScaffoldContractWrite({
-    contractName: "YourContract",
-    functionName: "listCharger",
-    args: ["default",BigInt("0")],
-    blockConfirmations: 1,
-    onBlockConfirmation: (txnReceipt) => {
-      console.log("Transaction blockHash", txnReceipt.blockHash);
-    },
-  });
-  const [location, setLocation] = useState<string>();
-  const [pricePerHour, setPricePerHour] = useState<string>();
-
-  const {
-    data: events,
-    isLoading: isLoadingEvents,
-    error: errorReadingEvents,
-  } = useScaffoldEventHistory({
-    contractName: "YourContract",
-    eventName: "ChargerBooked",
-    fromBlock: 31231n,
-    watch: true,
-    // filters: { renter: connectedAddress },
-    blockData: true,
-    transactionData: true,
-    receiptData: true,
-  });
-  
-  
-
   return (
-  <>
-    <div className="bg-gradient-to-r from-[#D0E9FF] to-[#A1C4FD]">
-
-    <div className="flex justify-center items-center">
-        <div className='w-1/2 p-5 card '>
-            <div className='pb-5 justify-center items-center'>
-            <div className='flex flex-col justify-center items-center pb-5'> {/* Adjusted for vertical centering */}
-                <h1 className='text-4xl font-bold pb-4'>List your Charger</h1>
-              </div>
-              <InputBase name="location" placeholder="Location" value={location} onChange={setLocation} />
+    <>
+      <div className="bg-primary h-screen">
+        <div className="flex items-center flex-col flex-grow pt-5">
+          <h1 className="mb-5 text-5xl font-bold">Elektris</h1>
+          <div className="card bg-base-100 shadow-2xl flex align-center justify-center w-3/4 m-10">
+            <div className="card-body">
+              <table className="table table-xs card rounded-2xl">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>Name</th>
+                    <th>Job</th>
+                    <th>company</th>
+                    <th>location</th>
+                    <th>Last Login</th>
+                    <th>Favorite Color</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th>1</th>
+                    <td>Cy Ganderton</td>
+                    <td>Quality Control Specialist</td>
+                    <td>Littel, Schaden and Vandervort</td>
+                    <td>Canada</td>
+                    <td>12/16/2020</td>
+                    <td>Blue</td>
+                  </tr>
+                  <tr>
+                    <th>2</th>
+                    <td>Hart Hagerty</td>
+                    <td>Desktop Support Technician</td>
+                    <td>Zemlak, Daniel and Leannon</td>
+                    <td>United States</td>
+                    <td>12/5/2020</td>
+                    <td>Purple</td>
+                  </tr>
+                  <tr>
+                    <th>3</th>
+                    <td>Brice Swyre</td>
+                    <td>Tax Accountant</td>
+                    <td>Carroll Group</td>
+                    <td>China</td>
+                    <td>8/15/2020</td>
+                    <td>Red</td>
+                  </tr>
+                  <tr>
+                    <th>4</th>
+                    <td>Marjy Ferencz</td>
+                    <td>Office Assistant I</td>
+                    <td>Rowe-Schoen</td>
+                    <td>Russia</td>
+                    <td>3/25/2021</td>
+                    <td>Crimson</td>
+                  </tr>
+                  <tr>
+                    <th>5</th>
+                    <td>Yancy Tear</td>
+                    <td>Community Outreach Specialist</td>
+                    <td>Wyman-Ledner</td>
+                    <td>Brazil</td>
+                    <td>5/22/2020</td>
+                    <td>Indigo</td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <th></th>
+                    <th>Name</th>
+                    <th>Job</th>
+                    <th>company</th>
+                    <th>location</th>
+                    <th>Last Login</th>
+                    <th>Favorite Color</th>
+                  </tr>
+                </tfoot>
+              </table>
             </div>
-            <div className='pb-5'>
-              <InputBase name="pricePerHour" placeholder="Price Per Hour" value={pricePerHour} onChange={setPricePerHour} />
-            </div>
-              <button className="btn btn-primary mt-4 shadow-2xl " onClick={() => writeAsync()}>
-              List My Charger Now
-              </button>
           </div>
-    </div>  
-
-    <div className="flex justify-center items-center w-full mt-16 px-8 py-12">
-  <div className="flex flex-col sm:flex-row justify-center items-center gap-12 rounded-3xl shadow-2xl bg-base-100 w-3/4 mx-auto">
-    <div className="flex flex-col px-10 py-10 text-center items-center max-w-xs">
-      <CurrencyDollarIcon className="h-10 w-10 fill-secondary" />
-      <p>
-        Transform your driveway into a profit center. List your EV charger and earn passive income while supporting EV Charging Infrastructure.
-      </p>
-    </div>
-    <div className='divider divider-vertical mx-4'></div>
-    <div className="flex flex-col px-10 py-10 text-center items-center max-w-xs">
-      <MagnifyingGlassIcon className="h-10 w-10 fill-secondary" />
-      <p>
-        Explore our network of EV chargers. Contribute to a greener planet by sharing your charger while offsetting your EV costs.
-      </p>
-    </div>
-  </div>
-</div>
-
-  </div>
-  </>
+        </div>
+      </div>
+    </>
   );
 };
 
