@@ -3,14 +3,12 @@
 import Link from "next/link";
 import type { NextPage } from "next";
 import { useAccount } from "wagmi";
-import { CurrencyDollarIcon, MagnifyingGlassIcon, MapIcon } from "@heroicons/react/24/outline";
+import { CurrencyDollarIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import MapWithPins from "~~/components/MapWithPins";
-import { Address } from "~~/components/scaffold-eth";
 
 // Adjust the import path if necessary
-
 const Home: NextPage = () => {
-  const { address: connectedAddress } = useAccount();
+  useAccount();
 
   return (
     <>
