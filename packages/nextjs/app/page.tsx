@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import type { NextPage } from "next";
 import { useAccount } from "wagmi";
@@ -13,24 +14,19 @@ const Home: NextPage = () => {
   return (
     <>
       <div className="bg-primary">
-        <div className="flex items-center flex-col flex-grow ">
-          <div
-            className="hero h-96"
-            style={{ backgroundImage: "url(https://daisyui.com/images/stock/photo-1507358522600-9f71e620c44e.jpg)" }}
-          >
-            <div className="hero-overlay bg-opacity-60"></div>
-            <div className="hero-content text-center text-neutral-content">
-              <div className="max-w-md">
-                <h1 className="mb-5 text-5xl font-bold">Elektris</h1>
-                <p className="mb-5">
-                  Transforming EV charging into passive income. Support green infrastructure and become sustainable
-                  future.
-                </p>
+        <div className="flex items-center flex-col flex-grow pt-5">
+          <h1 className="mb-5 text-5xl font-bold">Elektris</h1>
+          <Image src="/EVHero.png" width={400} height={500} alt="Elektris Hero" className="rounded-3xl" />
+          <div className="hero-content text-center">
+            <div className="max-w-md">
+              <p className="mb-5 text-xl">
+                Transform your EV charger into a passive income stream, accelerate the transition to green
+                transportation, and enjoy lower vehicle operating costs—all with minimal effort.{" "}
+              </p>
 
-                <Link href="/list-charger" passHref className="link">
-                  <button className="btn btn-primary">Get Started</button>
-                </Link>
-              </div>
+              <Link href="/list-charger" passHref className="link">
+                <button className="btn btn-secondary">Get Started</button>
+              </Link>
             </div>
           </div>
 
@@ -59,7 +55,7 @@ const Home: NextPage = () => {
 
           <div className="divider"></div>
 
-          <div className="flex justify-center mx-auto py-12">
+          <div className="flex justify-center mx-auto py-12 w-full">
             <div className="card bg-base-100 shadow-xl flex justify-center">
               <div className="card-body">
                 <h2 className="text-4xl font-bold flex">Find a Charger</h2>
@@ -71,6 +67,7 @@ const Home: NextPage = () => {
               </div>
             </div>
           </div>
+
           <div className="card bg-base-100 shadow-xl flex justify-center w-3/4 mb-10">
             <div className="card-body">
               <MapWithPins />
