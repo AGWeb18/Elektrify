@@ -3,8 +3,10 @@
 // app/list-charger/page.tsx
 import React, { useState } from "react";
 import Link from "next/link";
+import Script from "next/script";
 import { createClient } from "@supabase/supabase-js";
 import type { NextPage } from "next";
+import Autocomplete from "react-google-autocomplete";
 import { useAccount } from "wagmi";
 import { CurrencyDollarIcon, MagnifyingGlassIcon, MapIcon } from "@heroicons/react/24/outline";
 import { InputBase } from "~~/components/scaffold-eth";
@@ -26,6 +28,7 @@ const ListCharger: NextPage = () => {
   const supabase_URL = process.env.NEXT_PUBLIC_SUPABASE_URL as string;
   const supabase_anon_key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string;
   const supabase_pw = process.env.NEXT_PUBLIC_SUPABASE_PW as string;
+  const googleAPIKEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as string;
 
   // Create a single instance of the Supabase client
   const supabase = createClient(supabase_URL, supabase_anon_key);
@@ -70,7 +73,30 @@ const ListCharger: NextPage = () => {
   }
 
   const [location, setLocation] = useState<string>();
-  const [pricePerHour, setPricePerHour] = useState<string>();
+  const [pricePerHour, setPricePerHour] = useState<string>("30");
+
+  const handlePriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPricePerHour(event.target.value);
+  };
+  const center = {
+    lat: 44.32933489719813,
+    lng: -78.7230982496161,
+  };
+
+  // Create a bounding box with sides ~10km away from the center point
+  const defaultBounds = {
+    north: center.lat + 0.1,
+    south: center.lat - 0.1,
+    east: center.lng + 0.1,
+    west: center.lng - 0.1,
+  };
+  const options = {
+    bounds: defaultBounds,
+    componentRestrictions: { country: "ca" },
+    fields: ["address_components", "geometry", "icon", "name"],
+    strictBounds: false,
+    types: ["address"], // This ensures that the autocomplete suggestions are addresses
+  };
 
   return (
     <>
@@ -80,14 +106,38 @@ const ListCharger: NextPage = () => {
             <div className="p-5 card">
               <h1 className="text-4xl font-bold pb-4 text-center">List your Charger</h1>
               <div className="pb-4">
-                <InputBase name="location" placeholder="Location" value={location} onChange={e => setLocation(e)} />
+                <Autocomplete
+                  apiKey={googleAPIKEY}
+                  options={options}
+                  onPlaceSelected={place => {
+                    // Assuming you want to save the formatted address, which is a common choice:
+                    setLocation(place.formatted_address);
+                  }}
+                  defaultValue={location}
+                  placeholder="Enter City"
+                  className="input input-bordered w-full max-w-xs mb-10 text-center"
+                />
               </div>
-              <InputBase
-                name="pricePerHour"
-                placeholder="~$/Hr 40"
+              <p className="text-center">${`${pricePerHour}/Hour`}</p>
+              <input
+                type="range"
+                min={"0"}
+                max="50"
+                defaultValue="30"
+                onChange={handlePriceChange}
                 value={pricePerHour}
-                onChange={e => setPricePerHour(e)}
+                className="range range-primary"
+                step="10"
               />
+              <div className="w-full flex justify-between text-xs px-2">
+                <span>0</span>
+                <span>10</span>
+                <span>20</span>
+                <span>30</span>
+                <span>40</span>
+                <span>50</span>
+              </div>
+
               <button
                 className="btn btn-primary mt-4 shadow-2xl"
                 onClick={() => {
