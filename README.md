@@ -1,5 +1,6 @@
-# 🏗 Scaffold-ETH 2
+# 🏗 Elektris
 
+<h3 align="center">Made with Scaffold-ETH-2</h3>
 <h4 align="center">
   <a href="https://docs.scaffoldeth.io">Documentation</a> |
   <a href="https://scaffoldeth.io">Website</a>
