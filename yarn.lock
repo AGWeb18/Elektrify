@@ -11207,7 +11207,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
+"prop-types@npm:^15.5.0, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -11394,6 +11394,18 @@ __metadata:
   version: 2.0.4
   resolution: "react-fast-compare@npm:2.0.4"
   checksum: 06046595f90a4e3e3a56f40a8078c00aa71bdb064ddb98343f577f546aa22e888831fd45f009c93b34707cc842b4c637737e956fd13d6f80607ee92fb9cf9a1c
+  languageName: node
+  linkType: hard
+
+"react-google-autocomplete@npm:^2.7.3":
+  version: 2.7.3
+  resolution: "react-google-autocomplete@npm:2.7.3"
+  dependencies:
+    lodash.debounce: ^4.0.8
+    prop-types: ^15.5.0
+  peerDependencies:
+    react: ">=16.8.0"
+  checksum: 2da6d59a6a87bc318de9757c51fe17bfee2ef50f22ec90b0ba903103ad4e0a72a18003e8a2135700beaec0bc1e3785afefa78dffdc55a8af41bde16d9e3e8222
   languageName: node
   linkType: hard
 
@@ -11971,6 +11983,7 @@ __metadata:
     next: ^14.0.4
     react: ^18.2.0
     react-dom: ^18.2.0
+    react-google-autocomplete: ^2.7.3
     react-map-gl: ^7.1.7
     tailwindcss: ^3.4.1
     typescript: latest
