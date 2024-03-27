@@ -1,32 +1,10 @@
+/* eslint-disable prettier/prettier */
 // pages/view-appointments.tsx
 "use client";
 
 import React, { useEffect, useState } from "react";
-// Adjust based on actual import paths
 import type { NextPage } from "next";
 import { useAccount } from "wagmi";
-
-// pages/view-appointments.tsx
-
-// pages/view-appointments.tsx
-
-// pages/view-appointments.tsx
-
-// pages/view-appointments.tsx
-
-// pages/view-appointments.tsx
-
-// pages/view-appointments.tsx
-
-// pages/view-appointments.tsx
-
-// pages/view-appointments.tsx
-
-// pages/view-appointments.tsx
-
-// pages/view-appointments.tsx
-
-// pages/view-appointments.tsx
 
 const ViewAppointments: NextPage = () => {
   const { address: connectedAddress } = useAccount();
