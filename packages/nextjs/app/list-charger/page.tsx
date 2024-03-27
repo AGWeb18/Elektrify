@@ -33,7 +33,7 @@ const ListCharger: NextPage = () => {
   const googleAPIKEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as string;
 
   // Create a single instance of the Supabase client
-  const supabase = createClient(supabase_URL, supabase_anon_key);
+  const supabase = createClient('https://dhxzikwmdktwghqxtdpm.supabase.co', supabase_anon_key);
 
   const [fullAddress, setFullAddress] = useState("");
   const [location, setLocation] = useState<string>();

@@ -34,6 +34,10 @@ export const menuLinks: HeaderMenuLink[] = [
     href: "/view-appointments",
     icon: <BugAntIcon className="h-4 w-4" />,
   },
+  {
+    label: "About",
+    href: "/about",
+  },
 ];
 
 export const HeaderMenuLinks = () => {
