@@ -1,3 +1,5 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 "use client";
 
 // app/list-charger/page.tsx
@@ -33,45 +35,7 @@ const ListCharger: NextPage = () => {
   // Create a single instance of the Supabase client
   const supabase = createClient(supabase_URL, supabase_anon_key);
 
-  async function signInAndInsert() {
-    try {
-      // Sign in to Supabase
-      const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
-        email: "dev@elektris.com",
-        password: supabase_pw,
-      });
-
-      // Handle sign-in errors
-      if (signInError) throw signInError;
-
-      // Insert data into 'DIM_LOCATION_T'
-      const { data: insertData, error: insertError } = await supabase
-        .from("DIM_LOCATION_T")
-        .insert([{ location_name: location, pricePerHour: pricePerHour, user_id: connectedAddress }]);
-
-      // Handle insertion errors
-      if (insertError) throw insertError;
-
-      // Return or process the data
-      return { signInData, insertData };
-    } catch (error) {
-      // Handle any errors that occur during the sign-in or insert process
-      console.error("Error:", error);
-      return { error };
-    }
-  }
-
-  function runInsert() {
-    // Call the function
-    signInAndInsert()
-      .then(result => {
-        console.log("Success:", result);
-      })
-      .catch(error => {
-        console.error("Error:", error);
-      });
-  }
-
+  const [fullAddress, setFullAddress] = useState("");
   const [location, setLocation] = useState<string>();
   const [pricePerHour, setPricePerHour] = useState<string>("30");
 
@@ -97,6 +61,43 @@ const ListCharger: NextPage = () => {
     strictBounds: false,
     types: ["address"], // This ensures that the autocomplete suggestions are addresses
   };
+  async function signInAndInsert(fullAddress: string, pricePerHour: string) {
+    try {
+      // Sign in to Supabase
+      const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
+        email: "dev@elektris.com",
+        password: supabase_pw,
+      });
+
+      // Handle sign-in errors
+      if (signInError) throw signInError;
+
+      // Insert data into 'DIM_LOCATION_T'
+      const { data: insertData, error: insertError } = await supabase
+        .from("DIM_LOCATION_T")
+        .insert([{ location_name: fullAddress, pricePerHour: pricePerHour, user_id: connectedAddress }]);
+
+      // Handle insertion errors
+      if (insertError) throw insertError;
+
+      // Return or process the data
+      return { signInData, insertData };
+    } catch (error) {
+      // Handle any errors that occur during the sign-in or insert process
+      console.error("Error:", error);
+      return { error };
+    }
+  }
+
+  function runInsert() {
+    signInAndInsert(fullAddress, pricePerHour)
+      .then(result => {
+        console.log("Success:", result);
+      })
+      .catch(error => {
+        console.error("Error:", error);
+      });
+  }
 
   return (
     <>
@@ -110,8 +111,23 @@ const ListCharger: NextPage = () => {
                   apiKey={googleAPIKEY}
                   options={options}
                   onPlaceSelected={place => {
-                    // Assuming you want to save the formatted address, which is a common choice:
-                    setLocation(place.formatted_address);
+                    const fullAddress =
+                      place.address_components![0].long_name! +
+                        " " +
+                        place.address_components![1].long_name! +
+                        " " +
+                        place.address_components![2].long_name! +
+                        " " +
+                        place.address_components![3].long_name! +
+                        " " +
+                        place.address_components![4].long_name! || "No address found";
+
+                    setFullAddress(fullAddress);
+
+                    const latitude = place.geometry?.location?.lat();
+                    const longitude = place.geometry?.location?.lng();
+
+                    console.log(`Latitude: ${latitude}, Longitude: ${longitude}, ${fullAddress}`);
                   }}
                   defaultValue={location}
                   placeholder="Enter City"

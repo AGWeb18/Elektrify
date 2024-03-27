@@ -1,6 +1,8 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import React, { useState, useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import { InputBase } from "~~/components/scaffold-eth";
 import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 
@@ -12,7 +14,7 @@ const BookAppointment = () => {
 
   const validateForm = () => {
     let isValid = true;
-    let errors = { chargerId: "", numHours: "" };
+    const errors = { chargerId: "", numHours: "" };
 
     if (!selectedChargerId) {
       errors.chargerId = "Charger ID is required";
@@ -33,11 +35,11 @@ const BookAppointment = () => {
     functionName: "bookCharger",
     args: [BigInt(selectedChargerId), BigInt(numHours)],
     blockConfirmations: 1,
-    onSuccess: (txnReceipt) => {
+    onSuccess: txnReceipt => {
       setTransactionMessage("Charger booked successfully!");
       console.log("Transaction blockHash", txnReceipt.hash);
     },
-    onError: (error) => {
+    onError: error => {
       setTransactionMessage(`Failed to book charger: ${error.message}`);
     },
   });
@@ -46,11 +48,11 @@ const BookAppointment = () => {
     if (!validateForm()) return;
 
     setTransactionMessage("Processing your booking...");
-    writeAsync().catch((error) => {
+    writeAsync().catch(error => {
       console.error("Transaction error:", error);
       setTransactionMessage(`Transaction failed: ${error.message}`);
     });
-  }, [selectedChargerId, numHours]);
+  }, [validateForm, writeAsync]);
 
   return (
     <>
@@ -67,7 +69,7 @@ const BookAppointment = () => {
                 aria-label="Charger ID"
                 value={selectedChargerId}
                 onChange={e => setSelectedChargerId(e)}
-                />
+              />
               {formErrors.chargerId && <p className="text-red-500">{formErrors.chargerId}</p>}
             </div>
             <div className="pb-5">
@@ -77,18 +79,24 @@ const BookAppointment = () => {
                 aria-label="Number of Hours"
                 value={numHours}
                 onChange={e => setNumHours(e)}
-                />
+              />
               {formErrors.numHours && <p className="text-red-500">{formErrors.numHours}</p>}
             </div>
             <button
-              className={`btn btn-primary mt-4 shadow-2xl ${isLoading || isMining ? "opacity-50 cursor-not-allowed" : ""}`}
+              className={`btn btn-primary mt-4 shadow-2xl ${
+                isLoading || isMining ? "opacity-50 cursor-not-allowed" : ""
+              }`}
               onClick={handleBookCharger}
               disabled={isLoading || isMining}
               aria-disabled={isLoading || isMining}
             >
               {isLoading || isMining ? "Processing..." : "Book Charger Now"}
             </button>
-            {transactionMessage && <p className={`mt-4 ${transactionMessage.includes("failed") ? "text-red-500" : "text-green-500"}`}>{transactionMessage}</p>}
+            {transactionMessage && (
+              <p className={`mt-4 ${transactionMessage.includes("failed") ? "text-red-500" : "text-green-500"}`}>
+                {transactionMessage}
+              </p>
+            )}
           </div>
         </div>
       </div>
