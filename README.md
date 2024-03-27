@@ -6,35 +6,44 @@
   <a href="https://scaffoldeth.io">Website</a>
 </h4>
 
-🧪 An open-source, up-to-date toolkit for building decentralized applications (dapps) on the Ethereum blockchain. It's designed to make it easier for developers to create and deploy smart contracts and build user interfaces that interact with those contracts.
 
-⚙️ Built using NextJS, RainbowKit, Hardhat, Wagmi, Viem, and Typescript.
+ <h2 align="center"> Written by a Human</h2>
+I was driving home from the gym when I saw a family in an Electric Vehicle with their hazards on in a mall parking lot. I asked them if they needed help and they politely declined.
+As I pulled in my driveway and plugged my EV into my charger, I realized theres no easy way to offer a electric vehicle charging service from your own driveway.
 
-- ✅ **Contract Hot Reload**: Your frontend auto-adapts to your smart contract as you edit it.
-- 🪝 **[Custom hooks](https://docs.scaffoldeth.io/hooks/)**: Collection of React hooks wrapper around [wagmi](https://wagmi.sh/) to simplify interactions with smart contracts with typescript autocompletion.
-- 🧱 [**Components**](https://docs.scaffoldeth.io/components/): Collection of common web3 components to quickly build your frontend.
-- 🔥 **Burner Wallet & Local Faucet**: Quickly test your application with a burner wallet and local faucet.
-- 🔐 **Integration with Wallet Providers**: Connect to different wallet providers and interact with the Ethereum network.
+**That is where the idea of Elektris came from.**
+ <h2 align="center"> Written by AI</h2>
+This project is a decentralized application (dApp) that connects electric vehicle (EV) owners with private EV charger owners. Utilizing Ethereums Layer 2 scaling solutions for efficient, low-cost transactions, platform aims to create a peer-to-peer network where individuals can list their personal EV chargers for for others to rent. Key components include:
 
-![Debug Contracts tab](https://github.com/scaffold-eth/scaffold-eth-2/assets/55535804/b237af0c-5027-4849-a5c1-2e31495cccb1)
+<h3>Blockchain Integration:</h3>
+For secure, transparent transactions and to maintain a trustless environment. It leverages smart contracts for listing, booking, and payment processes, ensuring integrity and automation of interactions between users.
 
-## Requirements
+<h3>Geohashing and Privacy:</h3>
+To address privacy concerns associated with listing personal charging stations, the project employs a technique converts precise geolocations into less precise geolocations, until payment is made. 
 
-Before you begin, you need to install the following tools:
+<h3>Off-Chain Data Management:</h3>
+Precise location details and potentially sensitive user data are managed off-chain, in a secure database. This approach ensures that while the blockchain facilitates trust and transactional integrity, personal privacy is safeguarded. 
 
-- [Node (>= v18.17)](https://nodejs.org/en/download/)
-- Yarn ([v1](https://classic.yarnpkg.com/en/docs/install/) or [v2+](https://yarnpkg.com/getting-started/install))
-- [Git](https://git-scm.com/downloads)
+<h3>Integration with Mapping Services:</h3>
+For user convenience, the dApp integrates with mapping services like Google Maps, enabling users to find nearby chargers easily and receive directions. This feature, while intuitive, emphasizes privacy and data security, revealing precise charger locations only upon booking confirmation.
+
+<h3>Income Generation for Charger Owners:</h3>
+By listing their chargers, individuals can generate passive income, contributing to the platforms appeal. It not only incentivizes the expansion of EV charging infrastructure but also promotes the use of renewable energy sources by making charging more accessible.
+
+<h3>Sustainability and Community Building:</h3>
+The project supports the growth of the EV market by enhancing charging infrastructure accessibility. It fosters a community of EV enthusiasts and environmental advocates, aligning economic incentives with sustainability goals.
+
+
 
 ## Quickstart
 
-To get started with Scaffold-ETH 2, follow the steps below:
+To get started with Elektris (Scaffold-ETH 2), follow the steps below:
 
 1. Clone this repo & install dependencies
 
 ```
-git clone https://github.com/scaffold-eth/scaffold-eth-2.git
-cd scaffold-eth-2
+git clone https://github.com/AGWeb18/Elektris.git
+cd Elektris
 yarn install
 ```
 
@@ -62,11 +71,7 @@ yarn start
 
 Visit your app on: `http://localhost:3000`. You can interact with your smart contract using the `Debug Contracts` page. You can tweak the app config in `packages/nextjs/scaffold.config.ts`.
 
-Run smart contract test with `yarn hardhat:test`
 
-- Edit your smart contract `YourContract.sol` in `packages/hardhat/contracts`
-- Edit your frontend in `packages/nextjs/pages`
-- Edit your deployment scripts in `packages/hardhat/deploy`
 
 ## Documentation
 
