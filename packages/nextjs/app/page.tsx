@@ -56,13 +56,13 @@ const Home: NextPage = () => {
           <div className="divider"></div>
 
           <div className="flex justify-center mx-auto py-12 w-full">
-            <div className="card bg-base-100 shadow-xl flex justify-center">
-              <div className="card-body">
-                <h2 className="text-4xl font-bold flex">Find a Charger</h2>
+            <div className="card bg-base-100 shadow-xl w-1/2">
+              <div className="flex justify-center gap-12 flex-col m-5 text-center align-center">
+                <h2 className="text-4xl font-bold">Find a Charger</h2>
                 <input
                   type="text"
                   placeholder="Find a Charger"
-                  className="input input-bordered w-full max-w-xs mb-10 text-center"
+                  className="input input-bordered text-xl flex justify-center gap-12 flex-col m-5 text-center align-center"
                 />
               </div>
             </div>
