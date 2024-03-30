@@ -1,39 +1,10 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 "use client";
 
 import React, { useEffect, useState } from "react";
 import { supabase } from "../services/supabaseClient";
 import { GoogleMap, MarkerF, useJsApiLoader } from "@react-google-maps/api";
-
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 
 const mapContainerStyle = {
   height: "60vh",
