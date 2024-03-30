@@ -21,14 +21,14 @@ export const useNativeCurrencyPrice = () => {
     })();
   }, [targetNetwork]);
 
-  // Get the price of ETH from Uniswap at a given interval
-  useInterval(
-    async () => {
-      const price = await fetchPriceFromUniswap(targetNetwork);
-      setNativeCurrencyPrice(price);
-    },
-    enablePolling ? scaffoldConfig.pollingInterval : null,
-  );
+  // // Get the price of ETH from Uniswap at a given interval
+  // useInterval(
+  //   async () => {
+  //     const price = await fetchPriceFromUniswap(targetNetwork);
+  //     setNativeCurrencyPrice(price);
+  //   },
+  //   enablePolling ? scaffoldConfig.pollingInterval : null,
+  // );
 
   return nativeCurrencyPrice;
 };
