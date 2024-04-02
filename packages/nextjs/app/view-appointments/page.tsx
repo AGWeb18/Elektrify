@@ -5,88 +5,127 @@
 import React, { useEffect, useState } from "react";
 import type { NextPage } from "next";
 import { useAccount } from "wagmi";
+import { supabase } from "../../services/supabaseClient";
+
+interface Charger {
+  id: string;
+  created_at: string;
+  location_name: string;
+  pricePerHour: string;
+  user_id: string;
+  precise_long: number;
+  precise_lat: number;
+  approx_long: number;
+  approx_lat: number;
+  is_available: boolean;
+}
 
 const ViewAppointments: NextPage = () => {
   const { address: connectedAddress } = useAccount();
+
+  // Correctly typing the useState hook with the Charger interface
+  const [chargers, setChargers] = useState<Charger[]>([]);
+  const [pastChargers, setPastChargers] = useState<Charger[]>([]);
+
+
+  useEffect(() => {
+    async function fetchData() {
+      // Fetching current chargers
+      const { data, error } = await supabase
+        .from("dim_charger_locations")
+        .select("*")
+        .eq("is_available", true)
+        .eq("user_id", connectedAddress);
+  
+      // Fetching past bookings
+      const { data: pastData, error: pastDataError } = await supabase
+        .from("fct_bookings")
+        .select("*")
+        .eq("user_id", connectedAddress);
+  
+      if (error || pastDataError) {
+        console.error("Fetch error:", error || pastDataError);
+      } else {
+        setChargers(data);
+        setPastChargers(pastData);
+      }
+    }
+  
+    fetchData();
+  }, [connectedAddress]); // Added connectedAddress as a dependency
+  
+
+  // Mapping through chargers to dynamically create table rows
+  const rows = chargers.map((charger, index) => (
+    <tr key={charger.id}>
+      <th>{index + 1}</th>
+      <td>{charger.location_name}</td>
+      <td>{charger.pricePerHour}</td>
+      <td>{charger.approx_long}, {charger.approx_lat}</td>
+      <td>{new Date(charger.created_at).toLocaleDateString('en-CA', { year: 'numeric', month: 'long', day: 'numeric' })}</td>
+    </tr>
+  ));
+
+
+    // Mapping through chargers to dynamically create table rows
+  const PastBookingRows = pastChargers.map((pastChargers, index) => (
+      <tr key={pastChargers.id}>
+        <th>{index + 1}</th>
+        <td>{pastChargers.location_name}</td>
+        <td>{pastChargers.pricePerHour}</td>
+        <td>{pastChargers.approx_long}, {pastChargers.approx_lat}</td>
+        <td>{new Date(pastChargers.created_at).toLocaleDateString('en-CA', { year: 'numeric', month: 'long', day: 'numeric' })}</td>
+      </tr>
+    ));
+
   return (
     <>
       <div className="bg-primary h-screen">
         <div className="flex items-center flex-col flex-grow pt-5">
           <h1 className="mb-5 text-5xl font-bold">Elektris</h1>
           <div className="card bg-base-100 shadow-2xl flex align-center justify-center w-3/4 m-10">
-            <div className="card-body">
+            <div className="card-body pb-10 mb-5">
+            <h3 className="text-3xl font-bold">Upcoming Bookings</h3>
               <table className="table table-xs card rounded-2xl">
                 <thead>
                   <tr>
-                    <th></th>
-                    <th>Name</th>
-                    <th>Job</th>
-                    <th>company</th>
-                    <th>location</th>
-                    <th>Last Login</th>
-                    <th>Favorite Color</th>
+                    <th>#</th>
+                    <th>Location Name</th>
+                    <th>Price Per Hour</th>
+                    <th>Approximate Location</th>
+                    <th>Created At</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <th>1</th>
-                    <td>Cy Ganderton</td>
-                    <td>Quality Control Specialist</td>
-                    <td>Littel, Schaden and Vandervort</td>
-                    <td>Canada</td>
-                    <td>12/16/2020</td>
-                    <td>Blue</td>
-                  </tr>
-                  <tr>
-                    <th>2</th>
-                    <td>Hart Hagerty</td>
-                    <td>Desktop Support Technician</td>
-                    <td>Zemlak, Daniel and Leannon</td>
-                    <td>United States</td>
-                    <td>12/5/2020</td>
-                    <td>Purple</td>
-                  </tr>
-                  <tr>
-                    <th>3</th>
-                    <td>Brice Swyre</td>
-                    <td>Tax Accountant</td>
-                    <td>Carroll Group</td>
-                    <td>China</td>
-                    <td>8/15/2020</td>
-                    <td>Red</td>
-                  </tr>
-                  <tr>
-                    <th>4</th>
-                    <td>Marjy Ferencz</td>
-                    <td>Office Assistant I</td>
-                    <td>Rowe-Schoen</td>
-                    <td>Russia</td>
-                    <td>3/25/2021</td>
-                    <td>Crimson</td>
-                  </tr>
-                  <tr>
-                    <th>5</th>
-                    <td>Yancy Tear</td>
-                    <td>Community Outreach Specialist</td>
-                    <td>Wyman-Ledner</td>
-                    <td>Brazil</td>
-                    <td>5/22/2020</td>
-                    <td>Indigo</td>
-                  </tr>
+                  {rows} {/* Dynamically generated rows */}
                 </tbody>
-                <tfoot>
-                  <tr>
-                    <th></th>
-                    <th>Name</th>
-                    <th>Job</th>
-                    <th>company</th>
-                    <th>location</th>
-                    <th>Last Login</th>
-                    <th>Favorite Color</th>
-                  </tr>
-                </tfoot>
               </table>
             </div>
+
+              
+          </div>
+
+
+          <div className="card bg-base-100 shadow-2xl flex align-center justify-center w-3/4 m-10">
+            <div className="card-body pb-10 mb-5">
+            <h3 className="text-3xl font-bold">Past Bookings</h3>
+              <table className="table table-xs card rounded-2xl">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Location Name</th>
+                    <th>Price Per Hour</th>
+                    <th>Approximate Location</th>
+                    <th>Created At</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {rows} {/* Dynamically generated rows */}
+                </tbody>
+              </table>
+            </div>
+
+              
           </div>
         </div>
       </div>

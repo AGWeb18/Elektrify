@@ -67,12 +67,6 @@ const Home: NextPage = () => {
               </div>
             </div>
           </div>
-
-          <div className="card bg-base-100 shadow-xl flex justify-center w-3/4 mb-10">
-            <div className="card-body">
-              <MapWithPins />
-            </div>
-          </div>
         </div>
       </div>
     </>
