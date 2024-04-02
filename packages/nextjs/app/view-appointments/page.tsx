@@ -6,19 +6,7 @@ import React, { useEffect, useState } from "react";
 import type { NextPage } from "next";
 import { useAccount } from "wagmi";
 import { supabase } from "../../services/supabaseClient";
-
-interface Charger {
-  id: string;
-  created_at: string;
-  location_name: string;
-  pricePerHour: string;
-  user_id: string;
-  precise_long: number;
-  precise_lat: number;
-  approx_long: number;
-  approx_lat: number;
-  is_available: boolean;
-}
+import { Charger } from "../interfaces/ChargerInterface";
 
 const ViewAppointments: NextPage = () => {
   const { address: connectedAddress } = useAccount();
@@ -32,16 +20,14 @@ const ViewAppointments: NextPage = () => {
     async function fetchData() {
       // Fetching current chargers
       const { data, error } = await supabase
-        .from("dim_charger_locations")
+        .from("fct_bookings")
         .select("*")
-        .eq("is_available", true)
         .eq("user_id", connectedAddress);
   
       // Fetching past bookings
       const { data: pastData, error: pastDataError } = await supabase
         .from("fct_bookings")
-        .select("*")
-        .eq("user_id", connectedAddress);
+        .select("*");
   
       if (error || pastDataError) {
         console.error("Fetch error:", error || pastDataError);
@@ -57,7 +43,7 @@ const ViewAppointments: NextPage = () => {
 
   // Mapping through chargers to dynamically create table rows
   const rows = chargers.map((charger, index) => (
-    <tr key={charger.id}>
+    <tr key={charger.charger_id}>
       <th>{index + 1}</th>
       <td>{charger.location_name}</td>
       <td>{charger.pricePerHour}</td>
@@ -69,7 +55,7 @@ const ViewAppointments: NextPage = () => {
 
     // Mapping through chargers to dynamically create table rows
   const PastBookingRows = pastChargers.map((pastChargers, index) => (
-      <tr key={pastChargers.id}>
+      <tr key={pastChargers.charger_id}>
         <th>{index + 1}</th>
         <td>{pastChargers.location_name}</td>
         <td>{pastChargers.pricePerHour}</td>
@@ -89,7 +75,7 @@ const ViewAppointments: NextPage = () => {
               <table className="table table-xs card rounded-2xl">
                 <thead>
                   <tr>
-                    <th>#</th>
+                    <th>Charger ID</th>
                     <th>Location Name</th>
                     <th>Price Per Hour</th>
                     <th>Approximate Location</th>
@@ -120,7 +106,7 @@ const ViewAppointments: NextPage = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {rows} {/* Dynamically generated rows */}
+                  {PastBookingRows} {/* Dynamically generated rows for past bookings */}
                 </tbody>
               </table>
             </div>
