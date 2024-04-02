@@ -4,28 +4,23 @@
 "use client";
 
 // app/list-charger/page.tsx
-import React, { useState } from "react";
-import Link from "next/link";
-import Script from "next/script";
-// import { createClient } from "@supabase/supabase-js";
+import React, { useState, useEffect } from "react";
+// import { useRouter } from 'next/router'
+import { useRouter } from "next/navigation"
 import { supabase } from '../../services/supabaseClient'; // Update the import path as necessary
-
 import type { NextPage } from "next";
 import Autocomplete from "react-google-autocomplete";
 import { useAccount } from "wagmi";
 import { CurrencyDollarIcon, MagnifyingGlassIcon, MapIcon } from "@heroicons/react/24/outline";
-import { InputBase } from "~~/components/scaffold-eth";
 import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 import Image from 'next/image';
+import Success from "~~/components/Success";
 
 
 const ListCharger: NextPage = () => {
 // ======================= VARIABLES ==========================
-
   const { address: connectedAddress } = useAccount();
   const googleAPIKEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as string;
-  
-  
   const [fullAddress, setFullAddress] = useState("");
   const [location, setLocation] = useState<string>();
   const [pricePerHour, setPricePerHour] = useState<string>("40");
@@ -33,6 +28,21 @@ const ListCharger: NextPage = () => {
   const [preciseLng, setPreciseLng] = useState("");
   const [approxLat, setApproxLat] = useState("");
   const [approxLng, setApproxLng] = useState("");
+  const [openHour, setOpenHour] = useState("0");
+  const [closeHour, setCloseHour] = useState("24");
+  const [isLoading, setIsLoading] = useState(false); // State to track loading
+
+  const router = useRouter();
+
+  // const [isReady, setIsReady] = useState(false);
+  //                             useEffect(() => {
+  //                               setIsReady(true);
+  //                             }, []);
+
+  //                             if (!isReady) {
+  //                               return null; // Or a loader indicator
+  //                             }
+
 
   const center = {
     lat: 44.32933489719813,
@@ -131,6 +141,14 @@ const ListCharger: NextPage = () => {
     setPricePerHour(event.target.value);
   };
 
+  const handleOpenHours = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setOpenHour(event.target.value);
+  };
+
+  const handleCloseHours = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setCloseHour(event.target.value);
+  };
+
 
   const { data, error } = useScaffoldContractWrite({
     contractName: "YourContract",
@@ -140,11 +158,12 @@ const ListCharger: NextPage = () => {
   
 
   async function signInAndInsert(fullAddress: string, pricePerHour: string) {
+    
     try {
       
-      // Insert data into 'DIM_LOCATION_T'
+      // Insert data into 'dim_charger_locations'
       const { data: insertData, error: insertError } = await supabase
-        .from("DIM_LOCATION_T")
+        .from("dim_charger_locations")
         .insert([{ location_name: fullAddress
                   , pricePerHour: pricePerHour
                   , user_id: connectedAddress
@@ -152,6 +171,8 @@ const ListCharger: NextPage = () => {
                   , precise_lat: preciseLat
                   , approx_lat: approxLat
                   , approx_long: approxLng
+                  , open_hour: openHour
+                  , close_hour: closeHour
                    }]);
 
       // Handle insertion errors
@@ -167,15 +188,18 @@ const ListCharger: NextPage = () => {
     }
   }
 
-  function runInsert() {
-    signInAndInsert(fullAddress, pricePerHour, )
-      .then(result => {
-        console.log("Success:", result);
-      })
-      .catch(error => {
-        console.error("Error:", error);
-      });
-  }
+  const runInsert = async () => {
+    setIsLoading(true); // Start loading
+    try {
+      const result = await signInAndInsert(fullAddress, pricePerHour);
+      console.log("Success:", result);
+      router.push('/success'); // Navigate to the success page
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+      setIsLoading(false); // Stop loading whether the operation was successful or not
+    }
+  };
 
 
 
@@ -194,14 +218,46 @@ const ListCharger: NextPage = () => {
                   onPlaceSelected={handlePlaceSelected}
                   defaultValue={location}
                   placeholder="List your EV Address"
-                  className="input input-bordered w-full max-w-xs mb-10 text-center"
+                  className="input input-bordered w-full max-w-xs mb-3 text-center"
                 />
               </div>
+              <div className="flex flex-row justify-center items-center gap-4">
+                <div className="flex-1">
+                  <label htmlFor="openHour" className="block text-sm font-medium text-gray-700 text-center">
+                    Open (24 Hour Clock)
+                  </label>
+                  <input
+                    id="openHour"
+                    type="number"
+                    min="0"
+                    max="24"
+                    onChange={handleOpenHours}
+                    value={openHour}
+                    className="input input-bordered w-full text-center"
+                    // Event handler here to update state or formik, etc.
+                  />
+                </div>
+                <div className="flex-1">
+                  <label htmlFor="closeHour" className="block text-sm font-medium text-gray-700 text-center">
+                    Close (24 Hour Clock)
+                  </label>
+                  <input
+                    id="closeHour"
+                    type="number"
+                    min="0"
+                    max="24"
+                    onChange={handleCloseHours}
+                    value={closeHour}
+                    className="input input-bordered w-full text-center"
+                  />
+                </div>
+              </div>
+
               <p className="text-center">${`${pricePerHour}/Hour`}</p>
               <input
                 type="range"
                 min={"0"}
-                max="50"
+                max="40"
                 onChange={handlePriceChange}
                 value={pricePerHour}
                 className="range range-primary"
@@ -217,38 +273,26 @@ const ListCharger: NextPage = () => {
                 <span>30</span>
                 <span>35</span>
                 <span>40</span>
-                <span>45</span>
-                <span>50</span>
+
               </div>
 
-              <button
-                className="btn btn-primary mt-4 shadow-2xl"
-                onClick={() => {
-                  // First, insert into the database
-                  runInsert();
-                  // Then, write to the blockchain
-                  // setShoul`dWrite(true); // Set the flag to true to trigger the write operation
-                }}
-              >
-                List My Charger Now
-              </button>
+      <button
+        className="btn btn-primary mt-4 shadow-2xl"
+        onClick={runInsert} // Just pass the function reference
+        disabled={isLoading} // Optionally disable the button when loading
+      >
+        {isLoading ? (
+          // Show spinner when loading
+          <span className="loading loading-spinner text-success"></span>
+        ) : (
+          "List My Charger Now"
+        )}
+      </button>
               <p className="text-center">This transaction will incur a Transaction Fee.</p>
             </div>
           </div>
         </div>
         
-        <div className="flex justify-center m-5 ">
-        <div className="flex bg-base-100 w-1/2 justify-center align-center p-10 rounded-3xl shadow-2xl" >              
-        <Image src="/EVListingPage.png" 
-                      width={600} height={600} 
-                      alt="Elektris Listing" 
-                      className="rounded-3xl" />
-                
-        </div>
-        </div>
-        </div>
-
-
         <div className="mx-auto pt-10 pb-20">
           <div className="flex flex-col sm:flex-row justify-center items-center rounded-3xl shadow-2xl bg-base-100 w-3/4 mx-auto py-10">
             <div className="flex flex-col py-10 text-center items-center w-3/4">
@@ -266,6 +310,24 @@ const ListCharger: NextPage = () => {
             </div>
           </div>
         </div>
+
+
+
+
+
+        <div className="flex justify-center m-5 ">
+        <div className="flex bg-base-100 w-1/2 justify-center align-center p-10 rounded-3xl shadow-2xl" >              
+        <Image src="/EVListingPage.png" 
+                      width={600} height={600} 
+                      alt="Elektris Listing" 
+                      className="rounded-3xl" />
+                
+        </div>
+        </div>
+        </div>
+
+
+        
 
 
 
