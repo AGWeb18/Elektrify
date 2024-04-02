@@ -14,6 +14,7 @@ import { useAccount } from "wagmi";
 import { CurrencyDollarIcon, MagnifyingGlassIcon, MapIcon } from "@heroicons/react/24/outline";
 import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 import Image from 'next/image';
+import Success from "~~/components/Success";
 
 
 const ListCharger: NextPage = () => {
@@ -29,6 +30,8 @@ const ListCharger: NextPage = () => {
   const [approxLng, setApproxLng] = useState("");
   const [openHour, setOpenHour] = useState("0");
   const [closeHour, setCloseHour] = useState("24");
+  const [isLoading, setIsLoading] = useState(false); // State to track loading
+
   const router = useRouter();
 
   // const [isReady, setIsReady] = useState(false);
@@ -185,17 +188,18 @@ const ListCharger: NextPage = () => {
     }
   }
 
-  async function runInsert() {
-
-    signInAndInsert(fullAddress, pricePerHour, )
-      .then(result => {
-        console.log("Success:", result);
-        router.push('/success')
-      })
-      .catch(error => {
-        console.error("Error:", error);
-      });
-  }
+  const runInsert = async () => {
+    setIsLoading(true); // Start loading
+    try {
+      const result = await signInAndInsert(fullAddress, pricePerHour);
+      console.log("Success:", result);
+      router.push('/success'); // Navigate to the success page
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+      setIsLoading(false); // Stop loading whether the operation was successful or not
+    }
+  };
 
 
 
@@ -272,17 +276,18 @@ const ListCharger: NextPage = () => {
 
               </div>
 
-              <button
-                className="btn btn-primary mt-4 shadow-2xl"
-                onClick={() => {
-                  // First, insert into the database
-                  runInsert();
-                  // Then, write to the blockchain
-                  // setShoul`dWrite(true); // Set the flag to true to trigger the write operation
-                }}
-              >
-                List My Charger Now
-              </button>
+      <button
+        className="btn btn-primary mt-4 shadow-2xl"
+        onClick={runInsert} // Just pass the function reference
+        disabled={isLoading} // Optionally disable the button when loading
+      >
+        {isLoading ? (
+          // Show spinner when loading
+          <span className="loading loading-spinner text-success"></span>
+        ) : (
+          "List My Charger Now"
+        )}
+      </button>
               <p className="text-center">This transaction will incur a Transaction Fee.</p>
             </div>
           </div>
