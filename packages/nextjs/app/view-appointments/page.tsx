@@ -66,7 +66,7 @@ const ViewAppointments: NextPage = () => {
 
   return (
     <>
-      <div className="bg-primary h-screen">
+      <div className="bg-gradient-to-r from-cyan-500 to-blue-200 h-100">
         <div className="flex items-center flex-col flex-grow pt-5">
           <h1 className="mb-5 text-5xl font-bold">Elektris</h1>
           <div className="card bg-base-100 shadow-2xl flex align-center justify-center w-3/4 m-10">

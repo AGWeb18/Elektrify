@@ -2,14 +2,28 @@
 import React, { useState } from "react";
 import { createCharge } from "../services/chargeGenerators";
 import { loadStripe } from "@stripe/stripe-js";
-import { useAccount } from "wagmi";
 
 // Adjust the import path as necessary
 // Make sure to call `loadStripe` outside of a component’s render to avoid
 // recreating the `Stripe` object on every render.
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
-const CheckoutComponent = () => {
+// Props interface
+interface CheckoutComponentProps {
+  totalCost: string;
+  chargerId: string; // Adjust types as necessary
+  userId: string; // Assuming string, adjust if it's a number or another type
+  numHours: number;
+  bookingDate: string; // Assuming ISO string format
+}
+
+const CheckoutComponent: React.FC<CheckoutComponentProps> = ({
+  totalCost,
+  chargerId,
+  userId,
+  numHours,
+  bookingDate,
+}) => {
   React.useEffect(() => {
     // Check to see if this is a redirect back from Checkout
     const query = new URLSearchParams(window.location.search);
@@ -18,12 +32,18 @@ const CheckoutComponent = () => {
     }
 
     if (query.get("canceled")) {
-      console.log("Order canceled -- continue to shop around and checkout when you’re ready.");
+      console.log("Order canceled -- continue to shop around and checkout when youre ready.");
     }
   }, []);
 
   return (
     <form action="/api/checkout_sessions" method="POST">
+      <input type="hidden" name="totalCost" value={totalCost} />
+      <input type="hidden" name="chargerId" value={chargerId} />
+      <input type="hidden" name="userId" value={userId} />
+      <input type="hidden" name="numHours" value={numHours.toString()} />
+      <input type="hidden" name="bookingDate" value={bookingDate} />
+
       <section>
         <button type="submit" role="link">
           Checkout

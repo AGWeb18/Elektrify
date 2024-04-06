@@ -188,8 +188,8 @@ const MapWithPins: React.FC<MapWithPinsProps> = () => {
 
     </div>
 
-    <div className="flex-grow w-full"> {/* Ensure the map container has a defined width and height */}
-      <div style={mapContainerStyle} className="w-full h-60vh mb-4"> {/* Example height or use Tailwind CSS */}
+    <div className="flex-grow w-full"> 
+      <div style={mapContainerStyle} className="w-full h-60vh mb-4"> 
         <GoogleMap mapContainerStyle={mapContainerStyle} center={mapCenter} zoom={12}>
           {chargers.map((charger) => (
             <MarkerF

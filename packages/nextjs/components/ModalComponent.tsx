@@ -3,6 +3,7 @@ import { Charger } from "../app/interfaces/ChargerInterface";
 import { addHours, format, setHours, setMinutes } from "date-fns";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { useAccount } from "wagmi";
 import CheckoutComponent from "~~/components/CheckoutComponent";
 
 interface ModalComponentProps {
@@ -12,6 +13,8 @@ interface ModalComponentProps {
 }
 
 const ModalComponent: React.FC<ModalComponentProps> = ({ isVisible, onClose, charger }) => {
+  const { address: connectedAddress } = useAccount();
+
   const [numHours, setNumHours] = useState<number>(1);
   const [startDate, setStartDate] = useState<Date>(new Date()); // Initialized to a new Date object
   const [transactionMessage, setTransactionMessage] = useState<string>("");
@@ -53,7 +56,7 @@ const ModalComponent: React.FC<ModalComponentProps> = ({ isVisible, onClose, cha
 
         <div className="px-2 bg-primary text-white">
           <div className="flex flex-wrap items-center text-sm">
-            <h3 className="font-bold flex-shrink-0">{charger.location_name}</h3>
+            <h3 className="font-bold flex-shrink-0 mt-1">{charger.location_name}</h3>
             <p className="font-bold flex-shrink-0">{`$${charger.pricePerHour} per hour`}</p>
             <p className="font-bold flex-shrink-0">{`Available from ${charger.open_hour}:00 to ${charger.close_hour}:00`}</p>
             <p className="font-bold flex-shrink-0">{`Hosted by User ID: ${charger.user_id.slice(13, 19)}`}</p>
@@ -90,6 +93,7 @@ const ModalComponent: React.FC<ModalComponentProps> = ({ isVisible, onClose, cha
             </label>
             <div className="flex w-full h-full justify-center mt-1">
               <DatePicker
+                aria-label="Select a date and time"
                 id="startTimePicker"
                 selected={startDate}
                 onChange={handleDateChange}
@@ -105,14 +109,21 @@ const ModalComponent: React.FC<ModalComponentProps> = ({ isVisible, onClose, cha
           </div>
 
           {/* Sticky footer for total cost and checkout action */}
-          <div className="mt-4 bg-white pt-4 sticky bottom-0">
-            <div className="flex justify-between items-center">
+          <div className="flex flex-col mt-2 bg-white pt-2">
+            <div className="flex items-center">
               <div className="text-sm">
                 <p className="text-md font-semibold text-accent">Total Cost:</p>
                 <p className="text-lg font-bold text-accent">{`$${totalCost.toFixed(2)}`}</p>
               </div>
               <div className="modal-action">
-                <CheckoutComponent />
+                <CheckoutComponent
+                  aria-live="polite"
+                  totalCost={totalCost.toFixed(2)}
+                  chargerId={charger.charger_id} // Assuming `id` is the property name for charger's UUID
+                  userId={String(connectedAddress)} // This is an example, adjust based on your actual user state management
+                  numHours={numHours}
+                  bookingDate={startDate.toISOString()} // Format as ISO string; adjust if your backend expects a different format
+                />{" "}
               </div>
             </div>
           </div>

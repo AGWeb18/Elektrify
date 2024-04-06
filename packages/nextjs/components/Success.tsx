@@ -1,8 +1,7 @@
-// 'use client';
+"use client";
+
 import React, { useEffect, useState } from "react";
 import Confetti from "react-dom-confetti";
-
-// import full-screen-dropdown from 'styles/Success'
 
 const Success = () => {
   const [showConfetti, setShowConfetti] = useState(false);
@@ -48,7 +47,7 @@ const Success = () => {
             d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
           />
         </svg>
-        <span>Thank you for listing your EV Charger!</span>
+        <span>Success! You will be redirected shortly ... </span>
       </div>
     </>
   );
