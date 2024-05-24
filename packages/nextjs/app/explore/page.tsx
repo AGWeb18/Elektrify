@@ -88,6 +88,7 @@ const Explore: NextPage = () => {
 
         <div className="flex justify-center w-full px-5 pb-10">
           <MapWithPins chargers={nearbyChargers} setSelectedCharger={setSelectedCharger} selectedCharger={null} />
+          
         </div>
       </div>
     </>

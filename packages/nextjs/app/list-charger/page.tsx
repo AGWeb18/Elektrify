@@ -252,6 +252,15 @@ const ListCharger: NextPage = () => {
                   />
                 </div>
               </div>
+              <div className="w-full flex justify-between text-xs p-2">
+                <button className="rounded-full">Sun</button>
+                <button className="rounded-full">Mon</button>
+                <button className="rounded-full">Tue</button>
+                <button className="rounded-full">Wed</button>
+                <button className="rounded-full">Thu</button>
+                <button className="rounded-full">Fri</button>
+                <button className="rounded-full">Sat</button>
+              </div>
 
               <p className="text-center">${`${pricePerHour}/Hour`}</p>
               <input

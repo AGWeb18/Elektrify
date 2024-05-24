@@ -39,7 +39,7 @@ module.exports = {
         },
       },
       {
-        dark: {
+        forest: {
           primary: "#212638",
           "primary-content": "#F9FBFF",
           secondary: "#323f61",

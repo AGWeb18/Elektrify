@@ -40,7 +40,6 @@ const MapWithPins: React.FC<MapWithPinsProps> = () => {
   const [preciseLng, setPreciseLng] = useState("");
   const [approxLat, setApproxLat] = useState("");
   const [approxLng, setApproxLng] = useState("");
-  const googleAPIKEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as string;
   const [location, setLocation] = useState<string>();
   const [mapCenter, setMapCenter] = useState({ lat: 44.32933489719813, lng: -78.7230982496161 });
 
@@ -129,7 +128,7 @@ const MapWithPins: React.FC<MapWithPinsProps> = () => {
       const addressComponents = place.address_components;
       if (addressComponents) {
             // Define the indexes of the elements you want to include
-            const selectedIndexes = [0, 1, 2, 3, 4, 7, 8, 9];
+            const selectedIndexes = [1, 2, 3, 4];
 
             // Filter the address components to only include those at the specified indexes
             const selectedComponents = addressComponents.filter((component, index) => selectedIndexes.includes(index));
@@ -178,7 +177,7 @@ const MapWithPins: React.FC<MapWithPinsProps> = () => {
   <div className="flex flex-col w-3/4 items-center justify-center">
     <div className="w-full max-w-xs mb-4"> {/* Adjust max width as necessary */}
       <Autocomplete
-        apiKey={googleAPIKEY}
+        apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}
         options={options}
         onPlaceSelected={handlePlaceSelected}
         defaultValue={location}
@@ -194,7 +193,7 @@ const MapWithPins: React.FC<MapWithPinsProps> = () => {
           {chargers.map((charger) => (
             <MarkerF
               key={charger.charger_id}
-              position={{ lat: charger.precise_lat, lng: charger.precise_long }}
+              position={{ lat: charger.approx_lat, lng: charger.approx_long }}
               title={charger.location_name}
               onClick={() => handleMarkerClick(charger)}
             />

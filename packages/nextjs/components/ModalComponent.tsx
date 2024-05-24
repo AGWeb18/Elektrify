@@ -53,14 +53,11 @@ const ModalComponent: React.FC<ModalComponentProps> = ({ isVisible, onClose, cha
         <button type="button" className="btn btn-sm btn-circle absolute right-2 top-2" onClick={onClose}>
           ✕
         </button>
-
-        <div className="px-2 bg-primary text-white">
-          <div className="flex flex-wrap items-center text-sm">
-            <h3 className="font-bold flex-shrink-0 mt-1">{charger.location_name}</h3>
-            <p className="font-bold flex-shrink-0">{`$${charger.pricePerHour} per hour`}</p>
-            <p className="font-bold flex-shrink-0">{`Available from ${charger.open_hour}:00 to ${charger.close_hour}:00`}</p>
-            <p className="font-bold flex-shrink-0">{`Hosted by User ID: ${charger.user_id.slice(13, 19)}`}</p>
-          </div>
+        <div className="bg-primary text-white p-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
+          <h3 className="font-bold">{charger.location_name}</h3>
+          <p className="font-bold">{`$${charger.pricePerHour} per hour`}</p>
+          <p className="font-bold">{`Available from ${charger.open_hour}:00 to ${charger.close_hour}:00`}</p>
+          <p className="font-bold">{`Hosted by User ID: ${charger.user_id.slice(13, 19)}`}</p>
         </div>
 
         <div className="p-2">
