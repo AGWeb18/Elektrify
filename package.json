@@ -60,6 +60,7 @@
     "@alchemy/aa-alchemy": "^3.7.3",
     "@alchemy/aa-core": "^3.6.1",
     "@alchemy/aa-signers": "^3.6.1",
+    "@coinbase/wallet-sdk": "^4.0.3",
     "@react-google-maps/api": "^2.19.3",
     "@stripe/stripe-js": "^3.2.0",
     "@supabase/supabase-js": "^2.40.0",

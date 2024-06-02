@@ -4,10 +4,12 @@ import React, { useCallback, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import BlueCreateWalletButton from "./BlueCreateWalletButton";
 import {
   AcademicCapIcon,
   Bars3Icon,
   BugAntIcon,
+  ChevronDownIcon,
   CurrencyDollarIcon,
   MagnifyingGlassIcon,
 } from "@heroicons/react/24/outline";
@@ -20,7 +22,7 @@ type HeaderMenuLink = {
   icon?: React.ReactNode;
 };
 
-export const menuLinks: HeaderMenuLink[] = [
+const menuLinks: HeaderMenuLink[] = [
   {
     label: "Home",
     href: "/",
@@ -47,7 +49,7 @@ export const menuLinks: HeaderMenuLink[] = [
   },
 ];
 
-export const HeaderMenuLinks = () => {
+const HeaderMenuLinks = () => {
   const pathname = usePathname();
 
   return (
@@ -73,9 +75,6 @@ export const HeaderMenuLinks = () => {
   );
 };
 
-/**
- * Site header
- */
 export const Header = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const burgerMenuRef = useRef<HTMLDivElement>(null);
@@ -119,12 +118,45 @@ export const Header = () => {
           </div>
         </Link>
         <ul className="hidden lg:flex lg:flex-nowrap menu menu-horizontal px-1 gap-2">
-          <HeaderMenuLinks />
+          <li className="dropdown">
+            <label tabIndex={0} className="btn btn-ghost hover:bg-secondary focus:!bg-secondary">
+              Chargers <ChevronDownIcon className="h-5 w-5 ml-2" />
+            </label>
+            <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+              <li>
+                <Link href="/list-charger" passHref className="link">
+                  <CurrencyDollarIcon className="h-4 w-4 mr-2" /> List Your Charger
+                </Link>
+              </li>
+              <li>
+                <Link href="/view-appointments" passHref className="link">
+                  <BugAntIcon className="h-4 w-4 mr-2" /> View Charging Appointments
+                </Link>
+              </li>
+            </ul>
+          </li>
+          <li className="dropdown">
+            <label tabIndex={0} className="btn btn-ghost hover:bg-secondary focus:!bg-secondary">
+              Explore <ChevronDownIcon className="h-5 w-5 ml-2" />
+            </label>
+            <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+              <li>
+                <Link href="/explore" passHref className="link">
+                  <MagnifyingGlassIcon className="h-4 w-4 mr-2" /> Explore Chargers
+                </Link>
+              </li>
+              <li>
+                <Link href="/about" passHref className="link">
+                  <AcademicCapIcon className="h-4 w-4 mr-2" /> About
+                </Link>
+              </li>
+            </ul>
+          </li>
         </ul>
       </div>
-      <div className="navbar-end flex-grow mr-4">
+      <div className="navbar-end flex-grow gap-2 mr-4">
         <RainbowKitCustomConnectButton />
-        <FaucetButton />
+        <BlueCreateWalletButton />
       </div>
     </div>
   );

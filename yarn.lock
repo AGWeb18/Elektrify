@@ -1251,6 +1251,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@coinbase/wallet-sdk@npm:^4.0.3":
+  version: 4.0.3
+  resolution: "@coinbase/wallet-sdk@npm:4.0.3"
+  dependencies:
+    buffer: ^6.0.3
+    clsx: ^1.2.1
+    eventemitter3: ^5.0.1
+    keccak: ^3.0.3
+    preact: ^10.16.0
+    sha.js: ^2.4.11
+  checksum: 47c2818b57f13b1fa403a5e79fc3e039a8cfc4daf9e92910aec4fe32caa4f2326d13c7ff26bbe1921cdcae29acfe41fbf5f0d3c9d58ab39035f05b1737bc06ab
+  languageName: node
+  linkType: hard
+
 "@confio/ics23@npm:^0.6.8":
   version: 0.6.8
   resolution: "@confio/ics23@npm:0.6.8"
@@ -18164,6 +18178,7 @@ __metadata:
     "@alchemy/aa-alchemy": ^3.7.3
     "@alchemy/aa-core": ^3.6.1
     "@alchemy/aa-signers": ^3.6.1
+    "@coinbase/wallet-sdk": ^4.0.3
     "@react-google-maps/api": ^2.19.3
     "@stripe/stripe-js": ^3.2.0
     "@supabase/supabase-js": ^2.40.0
