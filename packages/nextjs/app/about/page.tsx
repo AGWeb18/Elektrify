@@ -8,7 +8,7 @@ export default function About() {
 
   return (
     <>
-      <div className="bg-primary flex items-center flex-col flex-grow pt-10 mx-15">
+      <div className="bg-gradient-to-r from-cyan-500 to-blue-200 flex items-center flex-col flex-grow pt-10 mx-15">
         <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center w-3/4 rounded-3xl">
           <h2>Written by a Human</h2>
           <p>

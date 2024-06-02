@@ -78,7 +78,7 @@ const Explore: NextPage = () => {
 
   return (
     <>
-      <div className="bg-primary flex items-center flex-col flex-grow pt-10">
+      <div className="bg-gradient-to-r from-cyan-500 to-blue-200 flex items-center flex-col flex-grow pt-10">
         <div className="px-5 mb-10">
           <h1 className="text-center">
             <span className="block text-4xl font-bold">Elektris</span>
@@ -88,6 +88,7 @@ const Explore: NextPage = () => {
 
         <div className="flex justify-center w-full px-5 pb-10">
           <MapWithPins chargers={nearbyChargers} setSelectedCharger={setSelectedCharger} selectedCharger={null} />
+          
         </div>
       </div>
     </>

@@ -3,6 +3,7 @@ import { Charger } from "../app/interfaces/ChargerInterface";
 import { addHours, format, setHours, setMinutes } from "date-fns";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { useAccount } from "wagmi";
 import CheckoutComponent from "~~/components/CheckoutComponent";
 
 interface ModalComponentProps {
@@ -12,6 +13,8 @@ interface ModalComponentProps {
 }
 
 const ModalComponent: React.FC<ModalComponentProps> = ({ isVisible, onClose, charger }) => {
+  const { address: connectedAddress } = useAccount();
+
   const [numHours, setNumHours] = useState<number>(1);
   const [startDate, setStartDate] = useState<Date>(new Date()); // Initialized to a new Date object
   const [transactionMessage, setTransactionMessage] = useState<string>("");
@@ -45,24 +48,24 @@ const ModalComponent: React.FC<ModalComponentProps> = ({ isVisible, onClose, cha
   if (!isVisible || charger === null) return null;
 
   return (
-    <dialog open className="modal rounded-lg bg-blend-overlay bg-secondary bg-opacity-75">
-      <div className="modal-box w-1/2 relative bg-white rounded-lg shadow-xl overflow-hidden">
+    <dialog open className="modal flex items-center justify-center p-0">
+      <div className="modal-box w-full sm:w-2/3 md:w-1/2 lg:w-1/3 relative bg-white rounded-lg shadow-xl overflow-hidden">
         <button type="button" className="btn btn-sm btn-circle absolute right-2 top-2" onClick={onClose}>
           ✕
         </button>
-
-        <div className="px-2 bg-primary text-white">
-          <div className="flex flex-wrap items-center text-sm">
-            <h3 className="font-bold flex-shrink-0">{charger.location_name}</h3>
-            <p className="font-bold flex-shrink-0">{`$${charger.pricePerHour} per hour`}</p>
-            <p className="font-bold flex-shrink-0">{`Available from ${charger.open_hour}:00 to ${charger.close_hour}:00`}</p>
-            <p className="font-bold flex-shrink-0">{`Hosted by User ID: ${charger.user_id.slice(13, 19)}`}</p>
-          </div>
+        <div className="bg-primary text-white p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
+          <h3 className="font-bold col-span-full sm:col-span-2 lg:col-span-1">{charger.location_name}</h3>
+          <p className="font-bold col-span-full sm:col-span-2 lg:col-span-1">{`$${charger.pricePerHour} per hour`}</p>
+          <p className="font-bold col-span-full sm:col-span-2 lg:col-span-1">{`Available from ${charger.open_hour}:00 to ${charger.close_hour}:00`}</p>
+          <p className="font-bold col-span-full sm:col-span-2 lg:col-span-1">{`Hosted by User ID: ${charger.user_id.slice(
+            13,
+            19,
+          )}`}</p>
         </div>
 
-        <div className="p-2">
+        <div className="p-4">
           <div className="mt-1">
-            <label htmlFor="numHours" className=" mb-1 block text-sm font-medium text-gray-700">
+            <label htmlFor="numHours" className="mb-1 block text-sm font-medium text-gray-700">
               {`Duration (hours): ${numHours}`}
             </label>
             <input
@@ -90,6 +93,7 @@ const ModalComponent: React.FC<ModalComponentProps> = ({ isVisible, onClose, cha
             </label>
             <div className="flex w-full h-full justify-center mt-1">
               <DatePicker
+                aria-label="Select a date and time"
                 id="startTimePicker"
                 selected={startDate}
                 onChange={handleDateChange}
@@ -105,15 +109,20 @@ const ModalComponent: React.FC<ModalComponentProps> = ({ isVisible, onClose, cha
           </div>
 
           {/* Sticky footer for total cost and checkout action */}
-          <div className="mt-4 bg-white pt-4 sticky bottom-0">
-            <div className="flex justify-between items-center">
-              <div className="text-sm">
-                <p className="text-md font-semibold text-accent">Total Cost:</p>
-                <p className="text-lg font-bold text-accent">{`$${totalCost.toFixed(2)}`}</p>
-              </div>
-              <div className="modal-action">
-                <CheckoutComponent />
-              </div>
+          <div className="flex flex-col mt-2 bg-white pt-2">
+            <div className="text-sm">
+              <p className="text-md font-semibold text-accent">Total Cost:</p>
+              <p className="text-lg font-bold text-accent">{`$${totalCost.toFixed(2)}`}</p>
+            </div>
+            <div className="modal-action mt-2">
+              <CheckoutComponent
+                aria-live="polite"
+                totalCost={totalCost.toFixed(2)}
+                chargerId={charger.charger_id} // Assuming `id` is the property name for charger's UUID
+                userId={String(connectedAddress)} // This is an example, adjust based on your actual user state management
+                numHours={numHours}
+                bookingDate={startDate.toISOString()} // Format as ISO string; adjust if your backend expects a different format
+              />{" "}
             </div>
           </div>
         </div>

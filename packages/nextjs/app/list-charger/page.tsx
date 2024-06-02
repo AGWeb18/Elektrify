@@ -23,7 +23,7 @@ const ListCharger: NextPage = () => {
   const googleAPIKEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as string;
   const [fullAddress, setFullAddress] = useState("");
   const [location, setLocation] = useState<string>();
-  const [pricePerHour, setPricePerHour] = useState<string>("40");
+  const [pricePerHour, setPricePerHour] = useState<string>("20");
   const [preciseLat, setPreciseLat] = useState("");
   const [preciseLng, setPreciseLng] = useState("");
   const [approxLat, setApproxLat] = useState("");
@@ -206,7 +206,7 @@ const ListCharger: NextPage = () => {
   // ======================= FRONTEND ==========================
   return (
     <>
-      <div className="bg-primary">
+      <div className="bg-gradient-to-r from-cyan-500 to-blue-200">
         <div className="flex justify-center items-center mt-10 py-8">
           <div className="flex flex-col sm:flex-row justify-center items-center gap-12 rounded-3xl shadow-2xl bg-base-100 w-1/2">
             <div className="p-5 card">
@@ -252,6 +252,15 @@ const ListCharger: NextPage = () => {
                   />
                 </div>
               </div>
+              <div className="w-full flex justify-between text-xs p-2">
+                <button className="rounded-full">Sun</button>
+                <button className="rounded-full">Mon</button>
+                <button className="rounded-full">Tue</button>
+                <button className="rounded-full">Wed</button>
+                <button className="rounded-full">Thu</button>
+                <button className="rounded-full">Fri</button>
+                <button className="rounded-full">Sat</button>
+              </div>
 
               <p className="text-center">${`${pricePerHour}/Hour`}</p>
               <input
@@ -294,7 +303,7 @@ const ListCharger: NextPage = () => {
         </div>
         
         <div className="mx-auto pt-10 pb-20">
-          <div className="flex flex-col sm:flex-row justify-center items-center rounded-3xl shadow-2xl bg-base-100 w-3/4 mx-auto py-10">
+          <div className="flex flex-col sm:flex-row justify-center items-center rounded-3xl shadow-2xl bg-base-100 w-1/2 mx-auto py-10">
             <div className="flex flex-col py-10 text-center items-center w-3/4">
               <div
                 className="tooltip border-black"

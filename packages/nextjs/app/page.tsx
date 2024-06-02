@@ -5,9 +5,7 @@ import Link from "next/link";
 import type { NextPage } from "next";
 import { useAccount } from "wagmi";
 import { CurrencyDollarIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import MapWithPins from "~~/components/MapWithPins";
 
-// Adjust the import path if necessary
 const Home: NextPage = () => {
   useAccount();
 
@@ -55,15 +53,60 @@ const Home: NextPage = () => {
 
           <div className="divider"></div>
 
-          <div className="flex justify-center mx-auto py-12 w-full">
-            <div className="card bg-base-100 shadow-xl w-1/2">
-              <div className="flex justify-center gap-12 flex-col m-5 text-center align-center">
-                <h2 className="text-4xl font-bold">Find a Charger</h2>
-                <input
-                  type="text"
-                  placeholder="Find a Charger"
-                  className="input input-bordered text-xl flex justify-center gap-12 flex-col m-5 text-center align-center"
-                />
+          <div className="justify-center mx-4 py-12 w-full">
+            <div className="bg-base-100 shadow-xl p-6">
+              <div className="flex flex-col justify-center w-full text-center align-center">
+                <h2 className="text-4xl font-bold py-2">How It Works</h2>
+                <div className="flex flex-wrap justify-center gap-3">
+                  <div className="w-full sm:w-1/2 lg:w-1/3 p-4 flex">
+                    <div className="bg-base-100 shadow-xl rounded-xl p-3 flex flex-col">
+                      <figure className="px-10 pt-10">
+                        <Image
+                          src="/ListChargerImage.png"
+                          className="rounded-xl"
+                          width={300}
+                          height={200}
+                          alt="List Charger"
+                        />
+                      </figure>
+                      <div className="card-body items-center text-center">
+                        <h2 className="card-title mt-5">For Charger Owners: List Your Charger</h2>
+                        <p>
+                          Have a Level 2 Charger? Make it work for you! Join our network by listing your charger and
+                          start earning. Our platform connects you with EV drivers in need of charging, turning your
+                          investment into a continuous revenue stream. Its simple to get started, and youre in full
+                          control of your availability and rates.
+                        </p>
+                        <div className="w-full">
+                          <Link href="/list-charger" passHref className="link">
+                            <button className="btn btn-primary w-full"> List </button>
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="w-full sm:w-1/2 lg:w-1/3 p-4 flex">
+                    <div className="bg-base-100 shadow-xl rounded-xl p-3 flex flex-col justify-between">
+                      <figure className="px-10 pt-10">
+                        <Image src="/Charger.png" className="rounded-xl" width={300} height={200} alt="Find a Charge" />
+                      </figure>
+                      <div className="card-body items-center text-center">
+                        <h2 className="card-title mt-5">For Drivers: Find a Charge</h2>
+                        <p>
+                          Say goodbye to range anxiety. Our extensive network of privately-owned chargers puts the power
+                          back in your journey, making it easy to find a charge wherever you go. Whether youre planning
+                          a long trip or need a quick top-up, access our platform to locate and use a Level 2 Charger
+                          near you. Seamless, hassle-free, and designed with your convenience in mind.
+                        </p>
+                        <div className="w-full">
+                          <Link href="/explore" passHref className="link">
+                            <button className="btn btn-primary w-full">Explore</button>
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
