@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import BlueCreateWalletButton from "./BlueCreateWalletButton";
+import { ClerkProvider, SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import {
   AcademicCapIcon,
   Bars3Icon,
@@ -155,8 +156,16 @@ export const Header = () => {
         </ul>
       </div>
       <div className="navbar-end flex-grow gap-2 mr-4">
+        {/* <BlueCreateWalletButton />  TURN BACK ON WHEN READY  */}
+        <button className="btn btn-primary btn-sm">
+          <SignedOut>
+            <SignInButton />
+          </SignedOut>
+          <SignedIn>
+            <UserButton />
+          </SignedIn>
+        </button>
         <RainbowKitCustomConnectButton />
-        <BlueCreateWalletButton />
       </div>
     </div>
   );
